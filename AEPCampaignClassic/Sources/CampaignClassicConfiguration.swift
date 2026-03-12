@@ -47,6 +47,12 @@ struct CampaignClassicConfiguration {
         return trackingServer
     }
 
+    /// Returns the configured CampaignClassic's tracking endpoint mapping
+    /// Returns nil if the value is not found in configuration or not of type [String: String]
+    var trackingEndpointsMap: [String: String]? {
+        configSharedState?[CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_TRACKING_ENDPOINT_MAPPING] as? [String: String]
+    }
+
     /// Returns the configured CampaignClassics's network timeout
     /// Return default timeout, if the value is not found in configuration, or not of type Int
     var timeout: TimeInterval {
