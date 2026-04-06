@@ -422,7 +422,12 @@ class CampaignClassicTests: XCTestCase {
                                      TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_TRACKING_SERVER: trackingServer as Any,
                                      TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_NETWORK_TIMEOUT: networkTimeOut]
         if let trackingEndpointMapping = trackingEndpointMapping {
-            configurationSharedState[TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_TRACKING_ENDPOINT_MAPPING] = trackingEndpointMapping
+            // Config value is a JSON string: "[{\"identifier\":\"...\",\"endpoint\":\"...\"}]"
+            let array = trackingEndpointMapping.map { ["identifier": $0.key, "endpoint": $0.value] }
+            if let jsonData = try? JSONSerialization.data(withJSONObject: array),
+               let jsonString = String(data: jsonData, encoding: .utf8) {
+                configurationSharedState[TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_TRACKING_ENDPOINT_MAPPING] = jsonString
+            }
         }
         runtime.simulateSharedState(for: TestConstants.EventDataKeys.Configuration.EXTENSION_NAME, data: (configurationSharedState, .set))
     }

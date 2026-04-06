@@ -64,7 +64,7 @@ enum TestConstants {
             static let CAMPAIGNCLASSIC_MARKETING_SERVER = "campaignclassic.marketingServer"
             static let CAMPAIGNCLASSIC_TRACKING_SERVER = "campaignclassic.trackingServer"
             static let CAMPAIGNCLASSIC_INTEGRATION_KEY = "campaignclassic.ios.integrationKey"
-            static let CAMPAIGNCLASSIC_TRACKING_ENDPOINT_MAPPING = "campaignclassic.trackingEndpointMapping"
+            static let CAMPAIGNCLASSIC_TRACKING_ENDPOINT_MAPPING = "campaignclassic.trackingEndpointsMapping"
         }
 
     }

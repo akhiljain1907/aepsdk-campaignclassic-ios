@@ -150,6 +150,7 @@ public class CampaignClassic: NSObject, Extension {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Using mapped tracking endpoint for instanceName '\(instanceName)': \(trackEndpoint)")
         } else {
             trackEndpoint = trackingServer
+            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Using default tracking server: \(trackingServer) (instanceName: \(String(describing: instanceName)))")
         }
 
         guard let trackingUrl = URL(string: String(format: CampaignClassicConstants.TRACKING_API_URL_BASE, trackEndpoint, transformedBroadlogId, deliveryId, tagId)) else {
