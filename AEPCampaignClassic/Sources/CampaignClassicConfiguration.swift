@@ -47,10 +47,22 @@ struct CampaignClassicConfiguration {
         return trackingServer
     }
 
-    /// Returns the configured CampaignClassic's tracking endpoint mapping
-    /// Returns nil if the value is not found in configuration or not of type [String: String]
+    /// Returns the configured CampaignClassic's tracking endpoint mapping as [identifier: endpoint].
+    /// The config value is a JSON string: "[{\"identifier\":\"...\",\"endpoint\":\"...\"}]"
+    /// Returns nil if the value is missing or cannot be parsed.
     var trackingEndpointsMap: [String: String]? {
-        configSharedState?[CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_TRACKING_ENDPOINT_MAPPING] as? [String: String]
+        guard let jsonString = configSharedState?[CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_TRACKING_ENDPOINT_MAPPING] as? String,
+              let data = jsonString.data(using: .utf8),
+              let array = try? JSONSerialization.jsonObject(with: data) as? [[String: String]] else {
+            return nil
+        }
+        var map = [String: String]()
+        for entry in array {
+            if let identifier = entry["identifier"], let endpoint = entry["endpoint"] {
+                map[identifier] = endpoint
+            }
+        }
+        return map.isEmpty ? nil : map
     }
 
     /// Returns the configured CampaignClassics's network timeout
